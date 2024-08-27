@@ -1,0 +1,17 @@
+.main{
+    
+    height: 300px;
+
+}
+
+.floor{
+    width: 2px;
+    /* Here write properties for floor*/
+}
+.lift{
+    width: 20px;
+    display: flexbox;
+    /* Here decribe about lifts*/
+}
+
+/* define design for all small component and animation*/
