@@ -6,47 +6,135 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
     
 function addGroundFloor(){
    //This function will add groud floor with no. of lifts and button
-   const addDiv = document.createElement("div");
-   addDiv.classList.add("groundfloor");
-   for(i=0;i<numberOfLifts;i++){
+   console.log(numberOfFloor)
+   if(numberOfFloor<0){
+   for(i=0;i>=numberOfFloor;i--){
+    // console.log("hi")
+        if(i==0){
+            const addDiv = document.createElement("div"); 
+            addDiv.classList.add(`floorDiv-${i}`);
+            const floorName = document.createTextNode("Ground Floor")
+            addDiv.appendChild(floorName);
+            const addButton = document.createElement("button");
+             addButton.classList.add("up");
+             addButton.innerHTML = "UP"
+             addDiv.appendChild(addButton)
+                          //add floor platform 
+             const hr = document.createElement("hr");
+              hr.classList.add("floorline")
+                 addDiv.appendChild(hr);
+                //adding floor divs on DOM
+                document.querySelector(".add").appendChild(addDiv)
+        }else if(i==numberOfFloor){
+            const addDiv = document.createElement("div");
+            addDiv.classList.add(`floorDiv-${i}`);
+            const floorName = document.createTextNode(`${numberOfFloor} Floor`)
+            addDiv.appendChild(floorName);
+            const addButton = document.createElement("button");
+             addButton.classList.add("down");
+             addButton.innerHTML = "DOWN"
+             addDiv.appendChild(addButton)
+             //add floor platform 
+             const hr = document.createElement("hr");
+              hr.classList.add("floorline")
+                 addDiv.appendChild(hr);
+                //adding floor divs on DOM
+                document.querySelector(".add").appendChild(addDiv)
+        }else{
+            const addDiv = document.createElement("div");
+            addDiv.classList.add(`floorDiv-${i}`);
+            const floorName = document.createTextNode(`${i} Floor`)
+            addDiv.appendChild(floorName);
+            const addButtonUp = document.createElement("button");
+            addButtonUp.classList.add("up");
+            addButtonUp.innerHTML = "UP"
+             addDiv.appendChild(addButtonUp)
+             const addButtonDown = document.createElement("button");
+             addButtonDown.classList.add("down");
+             addButtonDown.innerHTML = "Down"
+             addDiv.appendChild(addButtonDown)
+             //add floor platform 
+             const hr = document.createElement("hr");
+              hr.classList.add("floorline")
+                 addDiv.appendChild(hr);
+                //adding floor divs on DOM
+                document.querySelector(".add").appendChild(addDiv)
+        }
+    }
+   }else if(numberOfFloor>0){
+    for(i=numberOfFloor;i>=0;i--){
+        if(i==0){
+            const addDiv = document.createElement("div"); 
+            addDiv.classList.add(`floorDiv-${i}`);
+            const floorName = document.createTextNode("Ground Floor")
+            addDiv.appendChild(floorName);
+            const addButton = document.createElement("button");
+             addButton.classList.add("up");
+             addButton.innerHTML = "UP"
+             addDiv.appendChild(addButton)
+                          //add floor platform 
+             const hr = document.createElement("hr");
+              hr.classList.add("floorline")
+                 addDiv.appendChild(hr);
+                //adding floor divs on DOM
+                document.querySelector(".add").appendChild(addDiv)
+        }else if(i==numberOfFloor){
+            const addDiv = document.createElement("div");
+            addDiv.classList.add(`floorDiv-${i}`);
+            const floorName = document.createTextNode(`${numberOfFloor} Floor`)
+            addDiv.appendChild(floorName);
+            const addButton = document.createElement("button");
+             addButton.classList.add("down");
+             addButton.innerHTML = "DOWN"
+             addDiv.appendChild(addButton)
+             //add floor platform 
+             const hr = document.createElement("hr");
+              hr.classList.add("floorline")
+                 addDiv.appendChild(hr);
+                //adding floor divs on DOM
+                document.querySelector(".add").appendChild(addDiv)
+        }else{
+            const addDiv = document.createElement("div");
+            addDiv.classList.add(`floorDiv-${i}`);
+            const floorName = document.createTextNode(`${i} Floor`)
+            addDiv.appendChild(floorName);
+            const addButtonUp = document.createElement("button");
+            addButtonUp.classList.add("up");
+            addButtonUp.innerHTML = "UP"
+             addDiv.appendChild(addButtonUp)
+             const addButtonDown = document.createElement("button");
+             addButtonDown.classList.add("down");
+             addButtonDown.innerHTML = "Down"
+             addDiv.appendChild(addButtonDown)
+             //add floor platform 
+             const hr = document.createElement("hr");
+              hr.classList.add("floorline")
+                 addDiv.appendChild(hr);
+                //adding floor divs on DOM
+                document.querySelector(".add").appendChild(addDiv)
+        }
+    }
+   }
+  
+
+   //adding lifts
+   /*for(i=0;i<numberOfLifts;i++){
     const createLifts = document.createElement("div")
     createLifts.classList.add("lifts")
-    createLifts.style.height = "20px";
-    createLifts.style.width = "20px";
-    createLifts.style.margin = "20px";
     createLifts.style.color = "green"
-    createLifts.style.backgroundColor = "green";
     addDiv.appendChild(createLifts)
-
-}
-   const hr = document.createElement("hr");
-   addDiv.appendChild(hr);
-   document.querySelector(".add").appendChild(addDiv)
+}*/
+   
 }
 addGroundFloor();
+
 function addFloors(){
     //this function will add no. of floors and there respective button
 }
 function remove(){
  // if user click on submit then this function remove all the floors and lifts if already there are some 
 }
-/*for(i=0;i<numberOfLifts;i++){
-    const create = document.createElement("div")
-    create.classList.add("child")
-    create.style.height = "20px";
-    create.style.width = "20px";
-    create.style.margin = "20px";
-    create.style.color = "green"
-    create.style.backgroundColor = "green";
-    document.querySelector(".add").appendChild(create)
 
-}*/
-/*for(i=0;i<numberOfFloor;i++){
-    const floorLine = document.createElement("hr")
-    //create.classList.add("child")
-    // floorLine.style.size = "4px";
-    document.body.appendChild(floorLine)
-}*/
 event.preventDefault();
 })
 
@@ -77,3 +165,35 @@ the lift state it will be called on the press of the button:
 		
 	Here, we first create a HTML element "div" and next we gave it some properties. We create another element h1 and append it to create, and after this we append create to div with class ".add"
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*for(i=0;i<numberOfLifts;i++){
+    const create = document.createElement("div")
+    create.classList.add("child")
+    create.style.height = "20px";
+    create.style.width = "20px";
+    create.style.margin = "20px";
+    create.style.color = "green"
+    create.style.backgroundColor = "green";
+    document.querySelector(".add").appendChild(create)
+
+}*/
+/*for(i=0;i<numberOfFloor;i++){
+    const floorLine = document.createElement("hr")
+    //create.classList.add("child")
+    // floorLine.style.size = "4px";
+    document.body.appendChild(floorLine)
+}*/
