@@ -1,4 +1,5 @@
 /* Remove All the repeated code from addfloor and add lift adding feature*/
+// replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
 let numberOfFloor, numberOfLifts;
@@ -26,7 +27,8 @@ function createSimulator(){
     const createLifts = document.createElement("div")
     createLifts.classList.add("lifts")
     createLifts.style.color = "green"
-    document.querySelector(".floorDiv-0").appendChild(createLifts)
+    const floor = document.querySelector(".floorLine-0");
+    floor.parentNode.insertBefore(createLifts,floor);
 }
    
 }
@@ -39,38 +41,26 @@ function addFloors(numberOfFloor,numberOfLifts,i){
             if(i==0){
             const floorName = document.createTextNode("Ground Floor")
             addDiv.appendChild(floorName);
-            const addButton = document.createElement("button");
-             addButton.classList.add("up");
-             addButton.innerHTML = "UP"
-             addDiv.appendChild(addButton)
+            upButton(addDiv);
             }else if(i==numberOfFloor){
                 const floorName = document.createTextNode(`${numberOfFloor} Floor`)
             addDiv.appendChild(floorName);
-            const addButton = document.createElement("button");
-             addButton.classList.add("down");
-             addButton.innerHTML = "DOWN"
-             addDiv.appendChild(addButton)
+             downButton(addDiv)
             }else{
-                const floorName = document.createTextNode(`${i} Floor`)
+            const floorName = document.createTextNode(`${i} Floor`)
             addDiv.appendChild(floorName);
-            const addButtonUp = document.createElement("button");
-            addButtonUp.classList.add("up");
-            addButtonUp.innerHTML = "UP"
-             addDiv.appendChild(addButtonUp)
-             const addButtonDown = document.createElement("button");
-             addButtonDown.classList.add("down");
-             addButtonDown.innerHTML = "Down"
-             addDiv.appendChild(addButtonDown)
+            upButton(addDiv);
+            downButton(addDiv)
             }
                           //add floor platform 
              const hr = document.createElement("hr");
-              hr.classList.add("floorline")
+              hr.classList.add(`floorLine-${i}`)
                  addDiv.appendChild(hr);
                  
                 //adding floor divs on DOM
                 document.querySelector(".add").appendChild(addDiv)
         }
-
+        
 function remove(){
  // if user click on submit then this function remove all the floors and lifts if already there are some 
 }
@@ -78,6 +68,20 @@ function remove(){
 event.preventDefault();
 })
 
+
+function upButton(addDiv){
+    const addButton = document.createElement("button");
+    addButton.classList.add(`up-${i}`);
+    addButton.innerHTML = "UP"
+    addDiv.appendChild(addButton)
+}
+
+function downButton(addDiv){
+    const addButton = document.createElement("button");
+             addButton.classList.add(`down-${i}`);
+             addButton.innerHTML = "DOWN"
+             addDiv.appendChild(addButton)
+}
 /*
 1. Depending on the number of floors and lifts inputed by user generate accordingly
 2. we have to store the state of all the lifts, like on which floor they are in and currently busy or not. depending on the state of 
