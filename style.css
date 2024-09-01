@@ -14,6 +14,9 @@
     height: 2px;
     background-color: grey;
 }
+.floorDiv-1{
+    height: 100px;
+}
 .groundfloor{
     display: flexbox;
 }
@@ -24,6 +27,10 @@
     background-color: green;
     margin: 20px;
     /* Here decribe about lifts*/
+}
+
+.button{
+    width: 10px;
 }
 
 /* define design for all small component and animation*/

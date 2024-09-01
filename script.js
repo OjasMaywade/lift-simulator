@@ -8,8 +8,8 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
    numberOfFloor = document.forms["form"]["Floors"].value;
     
-function createSimulator(){
    //This function will add groud floor with no. of lifts and button
+function createSimulator(){
    console.log(numberOfFloor)
    if(numberOfFloor<0){
    for(i=0;i>=numberOfFloor;i--){
@@ -20,8 +20,6 @@ function createSimulator(){
         addFloors(numberOfFloor,numberOfLifts,i)
     }
    }
-  
-
    //adding lifts
    for(i=0;i<numberOfLifts;i++){
     const createLifts = document.createElement("div")
@@ -29,13 +27,12 @@ function createSimulator(){
     createLifts.style.color = "green"
     const floor = document.querySelector(".floorLine-0");
     floor.parentNode.insertBefore(createLifts,floor);
-}
-   
+    } 
 }
 createSimulator();
 
-function addFloors(numberOfFloor,numberOfLifts,i){
-    //this function will add no. of floors and there respective button
+//this function will add no. of floors and there respective button
+function addFloors(numberOfFloor,numberOfLifts,i){    
     const addDiv = document.createElement("div"); 
             addDiv.classList.add(`floorDiv-${i}`);
             if(i==0){
@@ -61,11 +58,16 @@ function addFloors(numberOfFloor,numberOfLifts,i){
                 document.querySelector(".add").appendChild(addDiv)
         }
         
+        /*document.querySelector(".sub").addEventListener("click",()=>{
+            remove();
+            createSimulator();
+        })*/
 function remove(){
  // if user click on submit then this function remove all the floors and lifts if already there are some 
+ document.querySelector(".add").remove();
 }
 
-event.preventDefault();
+//event.preventDefault();
 })
 
 
