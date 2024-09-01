@@ -33,4 +33,7 @@
     width: 10px;
 }
 
+.lift-0{
+transition: transform 2s;
+}
 /* define design for all small component and animation*/

@@ -10,7 +10,6 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
     
    //This function will add groud floor with no. of lifts and button
 function createSimulator(){
-   console.log(numberOfFloor)
    if(numberOfFloor<0){
    for(i=0;i>=numberOfFloor;i--){
             addFloors(numberOfFloor,numberOfLifts,i)
@@ -23,8 +22,7 @@ function createSimulator(){
    //adding lifts
    for(i=0;i<numberOfLifts;i++){
     const createLifts = document.createElement("div")
-    createLifts.classList.add("lifts")
-    createLifts.style.color = "green"
+    createLifts.classList.add("lifts", `lift-${i}`)
     const floor = document.querySelector(".floorLine-0");
     floor.parentNode.insertBefore(createLifts,floor);
     } 
@@ -34,7 +32,7 @@ createSimulator();
 //this function will add no. of floors and there respective button
 function addFloors(numberOfFloor,numberOfLifts,i){    
     const addDiv = document.createElement("div"); 
-            addDiv.classList.add(`floorDiv-${i}`);
+            addDiv.classList.add("floorDiv", `floorDiv-${i}`);
             if(i==0){
             const floorName = document.createTextNode("Ground Floor")
             addDiv.appendChild(floorName);
@@ -51,7 +49,7 @@ function addFloors(numberOfFloor,numberOfLifts,i){
             }
                           //add floor platform 
              const hr = document.createElement("hr");
-              hr.classList.add(`floorLine-${i}`)
+              hr.classList.add("floorLine", `floorLine-${i}`)
                  addDiv.appendChild(hr);
                  
                 //adding floor divs on DOM
@@ -67,13 +65,32 @@ function remove(){
  document.querySelector(".add").remove();
 }
 
+
+
+document.querySelector(".up1").addEventListener("click",(event)=>{
+    console.log("hi")
+    const lift1 = document.querySelector(".lift-0");
+    lift1.style.transform = "translate(0px,-50px)"
+    })
+    document.querySelector(".up2").addEventListener("click",(event)=>{
+        //console.log("hi")
+        const lift1 = document.querySelector(".lift-0");
+        lift1.style.transform = "translateY(-100px)"
+        })
+
+    /*I think of two ways of creating lift movement:
+    1. using transform and transition
+    2. using HTML game 
+    
+    */
 //event.preventDefault();
 })
 
 
 function upButton(addDiv){
     const addButton = document.createElement("button");
-    addButton.classList.add(`up-${i}`);
+    addButton.classList.add(`up${i}`);
+    addButton.type = "button"
     addButton.innerHTML = "UP"
     addDiv.appendChild(addButton)
 }
@@ -84,6 +101,13 @@ function downButton(addDiv){
              addButton.innerHTML = "DOWN"
              addDiv.appendChild(addButton)
 }
+
+
+// Transform and transition of lift
+
+
+
+
 /*
 1. Depending on the number of floors and lifts inputed by user generate accordingly
 2. we have to store the state of all the lifts, like on which floor they are in and currently busy or not. depending on the state of 
