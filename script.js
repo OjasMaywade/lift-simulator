@@ -65,9 +65,21 @@ function remove(){
  document.querySelector(".add").remove();
 }
 
+for(i=0;i<=numberOfFloor*2;i++){
+    document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{
+        //console.log(event.target.classList[1])
+        const button = event.target.classList[1];
+        const buttonNum = button.at(button.length-1);
+        console.log(buttonNum)
+        const lift1 = document.querySelector(".lift-0");
+        const pixel = (buttonNum+1)*50;
+        console.log(pixel)
+        lift1.style.transform = `translateY(-${pixel}px)`
+    })
+}
 
 
-document.querySelector(".up1").addEventListener("click",(event)=>{
+/*document.querySelector(".up1").addEventListener("click",(event)=>{
     console.log("hi")
     const lift1 = document.querySelector(".lift-0");
     lift1.style.transform = "translate(0px,-50px)"
@@ -76,7 +88,7 @@ document.querySelector(".up1").addEventListener("click",(event)=>{
         //console.log("hi")
         const lift1 = document.querySelector(".lift-0");
         lift1.style.transform = "translateY(-100px)"
-        })
+        })*/
 
     /*I think of two ways of creating lift movement:
     1. using transform and transition
@@ -89,7 +101,7 @@ document.querySelector(".up1").addEventListener("click",(event)=>{
 
 function upButton(addDiv){
     const addButton = document.createElement("button");
-    addButton.classList.add(`up${i}`);
+    addButton.classList.add("liftCall",`up${i}`);
     addButton.type = "button"
     addButton.innerHTML = "UP"
     addDiv.appendChild(addButton)
@@ -97,7 +109,7 @@ function upButton(addDiv){
 
 function downButton(addDiv){
     const addButton = document.createElement("button");
-             addButton.classList.add(`down-${i}`);
+             addButton.classList.add("liftCall",`down${i}`);
              addButton.innerHTML = "DOWN"
              addDiv.appendChild(addButton)
 }
