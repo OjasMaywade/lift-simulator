@@ -69,12 +69,14 @@ for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{
         //console.log(event.target.classList[1])
         const button = event.target.classList[1];
-        const buttonNum = button.at(button.length-1);
-        console.log(buttonNum)
+        const buttonNum = Number(button.at(button.length-1));
+        // console.log(typeof buttonNum)
         const lift1 = document.querySelector(".lift-0");
-        const pixel = (buttonNum+1)*50;
-        console.log(pixel)
-        lift1.style.transform = `translateY(-${pixel}px)`
+        const pixel = (buttonNum)*50;
+        lift1.dataset.currentFloor = `${buttonNum}`;
+        lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        const duration = 2*(lift1.dataset.currentFloor-buttonNum)
+        lift1.style.transitionDuration = `${duration}s`; 
     })
 }
 
