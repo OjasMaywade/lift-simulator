@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts;
+let numberOfFloor, numberOfLifts, arr = [];;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
@@ -74,8 +74,10 @@ for(i=0;i<=numberOfFloor*2;i++){
         const lift1 = document.querySelector(".lift-0");
         const pixel = (buttonNum)*50;
         lift1.dataset.currentFloor = `${buttonNum}`;
+        arr.push(lift1.dataset.currentFloor)
+        console.log(arr[arr.length-2])
         lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
-        const duration = 2*(lift1.dataset.currentFloor-buttonNum)
+        const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[arr.length-2]));
         lift1.style.transitionDuration = `${duration}s`; 
     })
 }
