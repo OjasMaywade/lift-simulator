@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts, arr = [];;
+let numberOfFloor, numberOfLifts, arr = [];
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
@@ -29,6 +29,76 @@ function createSimulator(){
 }
 createSimulator();
 
+
+        
+        /*document.querySelector(".sub").addEventListener("click",()=>{
+            remove();
+            createSimulator();
+        })*/
+function remove(){
+ // if user click on submit then this function remove all the floors and lifts if already there are some 
+ document.querySelector(".add").remove();
+}
+
+for(i=0;i<numberOfFloor;i++){
+    const lift = document.querySelector(`.lift-${i}`);
+    lift.dataset.currentFloor = 0;
+    lift.style.transform = `translateY(0px)`;
+    let key = `liftCurrentFloor`
+    arr.push({[key]: `${lift.dataset.currentFloor}`, Status: 1})
+    
+}
+
+for(i=0;i<=numberOfFloor*2;i++){
+    
+    document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{    
+        console.log(arr)
+        const button = event.target.classList[1];
+        /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
+        const buttonNum = Number(button.at(button.length-1));
+        const lift1 = document.querySelector(".lift-0");
+        const pixel = (buttonNum)*50;
+        lift1.dataset.currentFloor = `${buttonNum}`;
+        lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[0].liftCurrentFloor));
+        lift1.style.transitionDuration = `${duration}s`; 
+        arr[0].liftCurrentFloor = lift1.dataset.currentFloor;
+        //document.getElementById("myBtn").disabled = true;
+        checkAvailability(arr);
+    })
+}
+
+
+
+    /*
+    we have to store the state of all the lifts, like on which floor they are in and currently busy or not. depending on the state of 
+the lift state it will be called on the press of the button:
+ i) if all the lift are on the ground floor and someone calls the lift on any floor then lift 1 will move.
+ ii) if someone calls a lift and their is already a lift on that floor then doors of that lift will open.
+ iii) lift nearest to the floor on which the button is pressed will move if it is not busy else number 2 priority lift will move 
+ */
+/* 1. We can disable call button for required duration using settimeout and .disable method */
+
+
+
+})
+
+function checkAvailability(arr){
+    arr.map((a)=>{
+            // let k = `lift${i}CurrentFloor`
+        console.log(a.liftCurrentFloor)
+    
+})
+}
+
+
+    /*I think of two ways of creating lift movement:
+    1. using transform and transition
+    2. using HTML game 
+    
+    */
+//event.preventDefault();
+
 //this function will add no. of floors and there respective button
 function addFloors(numberOfFloor,numberOfLifts,i){    
     const addDiv = document.createElement("div"); 
@@ -47,7 +117,7 @@ function addFloors(numberOfFloor,numberOfLifts,i){
             upButton(addDiv);
             downButton(addDiv)
             }
-                          //add floor platform 
+               //add floor platform 
              const hr = document.createElement("hr");
               hr.classList.add("floorLine", `floorLine-${i}`)
                  addDiv.appendChild(hr);
@@ -55,53 +125,6 @@ function addFloors(numberOfFloor,numberOfLifts,i){
                 //adding floor divs on DOM
                 document.querySelector(".add").appendChild(addDiv)
         }
-        
-        /*document.querySelector(".sub").addEventListener("click",()=>{
-            remove();
-            createSimulator();
-        })*/
-function remove(){
- // if user click on submit then this function remove all the floors and lifts if already there are some 
- document.querySelector(".add").remove();
-}
-
-for(i=0;i<=numberOfFloor*2;i++){
-    document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{
-        //console.log(event.target.classList[1])
-        const button = event.target.classList[1];
-        const buttonNum = Number(button.at(button.length-1));
-        // console.log(typeof buttonNum)
-        const lift1 = document.querySelector(".lift-0");
-        const pixel = (buttonNum)*50;
-        lift1.dataset.currentFloor = `${buttonNum}`;
-        arr.push(lift1.dataset.currentFloor)
-        console.log(arr[arr.length-2])
-        lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
-        const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[arr.length-2]));
-        lift1.style.transitionDuration = `${duration}s`; 
-    })
-}
-
-
-/*document.querySelector(".up1").addEventListener("click",(event)=>{
-    console.log("hi")
-    const lift1 = document.querySelector(".lift-0");
-    lift1.style.transform = "translate(0px,-50px)"
-    })
-    document.querySelector(".up2").addEventListener("click",(event)=>{
-        //console.log("hi")
-        const lift1 = document.querySelector(".lift-0");
-        lift1.style.transform = "translateY(-100px)"
-        })*/
-
-    /*I think of two ways of creating lift movement:
-    1. using transform and transition
-    2. using HTML game 
-    
-    */
-//event.preventDefault();
-})
-
 
 function upButton(addDiv){
     const addButton = document.createElement("button");
@@ -119,7 +142,7 @@ function downButton(addDiv){
 }
 
 
-// Transform and transition of lift
+
 
 
 
@@ -156,10 +179,19 @@ the lift state it will be called on the press of the button:
 
 
 
+// Transform and transition of lift
 
 
-
-
+/*document.querySelector(".up1").addEventListener("click",(event)=>{
+    console.log("hi")
+    const lift1 = document.querySelector(".lift-0");
+    lift1.style.transform = "translate(0px,-50px)"
+    })
+    document.querySelector(".up2").addEventListener("click",(event)=>{
+        //console.log("hi")
+        const lift1 = document.querySelector(".lift-0");
+        lift1.style.transform = "translateY(-100px)"
+        })*/
 
 
 

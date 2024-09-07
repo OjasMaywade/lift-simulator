@@ -34,6 +34,6 @@
 }
 
 .lift-0{
-transition: transform;
+transition: transform linear;
 }
 /* define design for all small component and animation*/
