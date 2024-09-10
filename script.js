@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts, arr = [];
+let numberOfFloor, numberOfLifts, arr = [], nearest=[];
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
@@ -20,11 +20,17 @@ function createSimulator(){
     }
    }
    //adding lifts
-   for(i=0;i<numberOfLifts;i++){
+   for(i=1;i<=numberOfLifts;i++){
     const createLifts = document.createElement("div")
     createLifts.classList.add("lifts", `lift-${i}`)
     const floor = document.querySelector(".floorLine-0");
     floor.parentNode.insertBefore(createLifts,floor);
+    const lift = document.querySelector(`.lift-${i}`);
+    lift.dataset.currentFloor = 0;
+    lift.style.transform = `translateY(0px)`;
+    let key = `liftCurrentFloor`;
+    arr.push({[key]: `${lift.dataset.currentFloor}`, Status: 1})
+
     } 
 }
 createSimulator();
@@ -40,31 +46,26 @@ function remove(){
  document.querySelector(".add").remove();
 }
 
-for(i=0;i<numberOfFloor;i++){
-    const lift = document.querySelector(`.lift-${i}`);
-    lift.dataset.currentFloor = 0;
-    lift.style.transform = `translateY(0px)`;
-    let key = `liftCurrentFloor`
-    arr.push({[key]: `${lift.dataset.currentFloor}`, Status: 1})
-    
-}
+
 
 for(i=0;i<=numberOfFloor*2;i++){
-    
-    document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{    
-        console.log(arr)
+    document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
+        //console.log(arr)
         const button = event.target.classList[1];
-        /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         const buttonNum = Number(button.at(button.length-1));
-        const lift1 = document.querySelector(".lift-0");
+        checkAvailability(arr,buttonNum);
+        /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
+        
+        const lift1 = document.querySelector(".lift-1");
         const pixel = (buttonNum)*50;
         lift1.dataset.currentFloor = `${buttonNum}`;
         lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
         const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[0].liftCurrentFloor));
         lift1.style.transitionDuration = `${duration}s`; 
         arr[0].liftCurrentFloor = lift1.dataset.currentFloor;
+        arr[0].Status = 0;
         //document.getElementById("myBtn").disabled = true;
-        checkAvailability(arr);
+        
     })
 }
 
@@ -83,10 +84,15 @@ the lift state it will be called on the press of the button:
 
 })
 
-function checkAvailability(arr){
+function checkAvailability(arr,buttonNum){
     arr.map((a)=>{
             // let k = `lift${i}CurrentFloor`
-        console.log(a.liftCurrentFloor)
+        //console.log(a.liftCurrentFloor)
+        if(a.Status == true){
+            nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
+        }else nearest.push(NaN)
+        
+        console.log(nearest)
     
 })
 }
