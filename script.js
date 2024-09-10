@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts, arr = [], nearest=[];
+let numberOfFloor, numberOfLifts, arr = [], nearest=[],index;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
@@ -55,8 +55,8 @@ for(i=0;i<=numberOfFloor*2;i++){
         const buttonNum = Number(button.at(button.length-1));
         checkAvailability(arr,buttonNum);
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
-        
-        const lift1 = document.querySelector(".lift-1");
+        console.log(index)
+        const lift1 = document.querySelector(`.lift-${index}`);
         const pixel = (buttonNum)*50;
         lift1.dataset.currentFloor = `${buttonNum}`;
         lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
@@ -64,6 +64,13 @@ for(i=0;i<=numberOfFloor*2;i++){
         lift1.style.transitionDuration = `${duration}s`; 
         arr[0].liftCurrentFloor = lift1.dataset.currentFloor;
         arr[0].Status = 0;
+        let t = (duration + 5)*1000;
+        //setTimeout(alert("h"),5000)
+        setTimeout(()=>{
+            arr[0].Status = 1
+            //console.log(arr[0].Status)
+        }, 5000);
+        // console.log(arr[0].Status)
         //document.getElementById("myBtn").disabled = true;
         
     })
@@ -83,17 +90,22 @@ the lift state it will be called on the press of the button:
 
 
 })
-
+/*task 1: Add setTimeout to lift for 5 + travelling time
+  task 2: Add proper structuring for nearest array
+  task 3: think about lift prority or randomness
+*/
 function checkAvailability(arr,buttonNum){
+    nearest = []
     arr.map((a)=>{
             // let k = `lift${i}CurrentFloor`
         //console.log(a.liftCurrentFloor)
         if(a.Status == true){
             nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
-        }else nearest.push(NaN)
-        
+        }else nearest.push(undefined)
         console.log(nearest)
-    
+        let minValue = Math.min(...nearest);
+        index = nearest.indexOf(minValue);
+            
 })
 }
 
