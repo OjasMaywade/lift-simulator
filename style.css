@@ -61,3 +61,6 @@ hr.floorLine-0{
     position: relative;
     left: 150px
 }
+.floorDiv-0{
+ display: inline-block; /* Solve problem of lift size cutting if the no. of lifts are more*/
+}
