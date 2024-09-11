@@ -10,23 +10,26 @@
     width: 2px;
     /* Here write properties for floor*/
 }
-.floorline{
-    height: 2px;
+.floorLine{
+    height: 4px;
     background-color: grey;
 }
-.floorDiv-1{
+.floorDiv{
+    height: 144.44px;
+}
+/*.floorDiv-1{
     height: 100px;
-}
-.groundfloor{
-    display: flexbox;
-}
+}*/
 .lifts{
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 70px;
     display: flexbox;
     background-color: green;
     margin: 20px;
     /* Here decribe about lifts*/
+}
+text{
+    margin: 2px;
 }
 
 .button{
@@ -37,4 +40,24 @@
 transition: transform;
 transition-timing-function: linear;
 }
+
+.lift-container{
+    display: flex;
+    flex-direction: row;
+}
 /* define design for all small component and animation*/
+
+hr.floorLine{
+    position: relative;
+    top: 100px;
+}
+
+hr.floorLine-0{
+    position: relative;
+    top:0px;
+}
+
+.lift-container{
+    position: relative;
+    left: 150px
+}

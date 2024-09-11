@@ -23,8 +23,9 @@ function createSimulator(){
    for(i=0;i<numberOfLifts;i++){
     const createLifts = document.createElement("div")
     createLifts.classList.add("lifts", `lift-${i}`)
-    const floor = document.querySelector(".floorLine-0");
-    floor.parentNode.insertBefore(createLifts,floor);
+    // const floor = document.querySelector(".floorLine-0");
+    //floor.parentNode.insertBefore(createLifts,floor);
+    document.querySelector(".lift-container").appendChild(createLifts)
     const lift = document.querySelector(`.lift-${i}`);
     lift.dataset.currentFloor = 0;
     lift.style.transform = `translateY(0px)`;
@@ -56,9 +57,10 @@ for(i=0;i<=numberOfFloor*2;i++){
         checkAvailability(arr,buttonNum);
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         console.log(index)
+        if(nearest[index]!=1000){
         const lift1 = document.querySelector(`.lift-${index}`); // Error on this line
         console.log(lift1)
-        const pixel = (buttonNum)*50;
+        const pixel = (buttonNum)*144.44;
         lift1.dataset.currentFloor = `${buttonNum}`;
         lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
         const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[index].liftCurrentFloor));
@@ -66,11 +68,12 @@ for(i=0;i<=numberOfFloor*2;i++){
         arr[index].liftCurrentFloor = lift1.dataset.currentFloor;
         arr[index].Status = 0;
         let t = (duration + 5)*1000;
-        console.log(t)
+        // console.log(t)
         setTimeout(()=>{
             arr[index].Status = 1
-            //console.log(arr[0].Status)
+            console.log(`array status: ${arr[index].Status}, index: ${index}`)
         }, t);
+    }else console.log("wait")
         // console.log(arr[0].Status)
         //document.getElementById("myBtn").disabled = true;
         
@@ -97,13 +100,14 @@ the lift state it will be called on the press of the button:
 */
 function checkAvailability(arr,buttonNum){
     nearest = []
+    console.log(arr)
     arr.map((a)=>{
             // let k = `lift${i}CurrentFloor`
         //console.log(a.liftCurrentFloor)
         if(a.Status == true){
             nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
         }else nearest.push(1000)
-        console.log(nearest)
+        console.log(`nearest Array: ${nearest}`)
         let minValue = Math.min(...nearest);
         index = nearest.indexOf(minValue);
 })
@@ -125,6 +129,9 @@ function addFloors(numberOfFloor,numberOfLifts,i){
             const floorName = document.createTextNode("Ground Floor")
             addDiv.appendChild(floorName);
             upButton(addDiv);
+            const addLiftContainer = document.createElement("div");
+            addLiftContainer.classList.add("lift-container");
+            addDiv.appendChild(addLiftContainer);
             }else if(i==numberOfFloor){
                 const floorName = document.createTextNode(`${numberOfFloor} Floor`)
             addDiv.appendChild(floorName);
