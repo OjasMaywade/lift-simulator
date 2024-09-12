@@ -12,3 +12,16 @@ Errors: 1. Throw a alert if user doesn't select both the field and click on star
 2. After the user submit the inputs and click on submit, generate the floors and lifts as per the response provided.
    
 3. Animation for lift movement and door opening and closing simulation
+
+
+
+
+
+
+Task:
+1. Solve issue with Lift calling
+ i. lift is getting diabled after a single call
+ ii. 
+2. Add event listener to negative floor buttons
+3. Disable button feature
+4. Add door opening and closing animation to lift

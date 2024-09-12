@@ -31,7 +31,6 @@ function createSimulator(){
     lift.style.transform = `translateY(0px)`;
     let key = `liftCurrentFloor`;
     arr.push({[key]: `${lift.dataset.currentFloor}`, Status: 1})
-
     } 
 }
 createSimulator();
@@ -47,8 +46,6 @@ function remove(){
  document.querySelector(".add").remove();
 }
 
-
-
 for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
         //console.log(arr)
@@ -60,7 +57,7 @@ for(i=0;i<=numberOfFloor*2;i++){
         if(nearest[index]!=1000){
         const lift1 = document.querySelector(`.lift-${index}`); // Error on this line
         console.log(lift1)
-        const pixel = (buttonNum)*144.44;
+        const pixel = (buttonNum)*161;
         lift1.dataset.currentFloor = `${buttonNum}`;
         lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
         const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[index].liftCurrentFloor));
@@ -126,18 +123,24 @@ function addFloors(numberOfFloor,numberOfLifts,i){
     const addDiv = document.createElement("div"); 
             addDiv.classList.add("floorDiv", `floorDiv-${i}`);
             if(i==0){
-            const floorName = document.createTextNode("Ground Floor")
+            const floorName = document.createElement("p");
+            const text = document.createTextNode("Ground Floor")
+            floorName.appendChild(text);
             addDiv.appendChild(floorName);
             upButton(addDiv);
             const addLiftContainer = document.createElement("div");
             addLiftContainer.classList.add("lift-container");
             addDiv.appendChild(addLiftContainer);
             }else if(i==numberOfFloor){
-                const floorName = document.createTextNode(`${numberOfFloor} Floor`)
+            const floorName = document.createElement("p");
+            const text = document.createTextNode(`${numberOfFloor} Floor`);
+            floorName.appendChild(text)
             addDiv.appendChild(floorName);
              downButton(addDiv)
             }else{
-            const floorName = document.createTextNode(`${i} Floor`)
+            const floorName = document.createElement("p");
+            const text = document.createTextNode(`${i} Floor`);
+            floorName.appendChild(text);
             addDiv.appendChild(floorName);
             upButton(addDiv);
             downButton(addDiv)

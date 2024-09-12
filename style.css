@@ -36,7 +36,7 @@ text{
     width: 10px;
 }
 
-.lift-0{
+.lifts{
 transition: transform;
 transition-timing-function: linear;
 }
@@ -49,12 +49,12 @@ transition-timing-function: linear;
 
 hr.floorLine{
     position: relative;
-    top: 100px;
+    top: 80px;
 }
 
 hr.floorLine-0{
     position: relative;
-    top:0px;
+    top:-28px;
 }
 
 .lift-container{
@@ -63,4 +63,14 @@ hr.floorLine-0{
 }
 .floorDiv-0{
  display: inline-block; /* Solve problem of lift size cutting if the no. of lifts are more*/
+}
+
+.floorDiv > p {
+    position: relative;
+    top: 50px;
+}
+
+.liftCall {
+    position: relative;
+    top: 50px;
 }
