@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts, arr = [], nearest=[],index;
+let numberOfFloor, numberOfLifts, arr = [], nearest=[];
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
@@ -51,11 +51,21 @@ for(i=0;i<=numberOfFloor*2;i++){
         //console.log(arr)
         const button = event.target.classList[1];
         const buttonNum = Number(button.at(button.length-1));
-        checkAvailability(arr,buttonNum);
+        nearest = []
+    console.log(arr)
+    arr.map((a)=>{
+        if(a.Status == true){
+            nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
+        }else {nearest.push(1000)}
+        console.log(`nearest Array: ${nearest}`)
+    })
+    let minValue = Math.min(...nearest);
+        let index = nearest.indexOf(minValue);
+        // checkAvailability(arr,buttonNum);
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
-        console.log(index)
+        console.log(`index: ${index}`)
         if(nearest[index]!=1000){
-        const lift1 = document.querySelector(`.lift-${index}`); // Error on this line
+        const lift1 = document.querySelector(`.lift-${index}`);
         console.log(lift1)
         const pixel = (buttonNum)*161;
         lift1.dataset.currentFloor = `${buttonNum}`;
@@ -65,10 +75,11 @@ for(i=0;i<=numberOfFloor*2;i++){
         arr[index].liftCurrentFloor = lift1.dataset.currentFloor;
         arr[index].Status = 0;
         let t = (duration + 5)*1000;
-        // console.log(t)
+        console.log(`time: ${t}`)
         setTimeout(()=>{
-            arr[index].Status = 1
-            console.log(`array status: ${arr[index].Status}, index: ${index}`)
+            console.log(`setTimeout index: ${index}`)
+            arr[index].Status = 1;
+            console.log(`array status: ${arr[index].Status}, index: ${index}`);
         }, t);
     }else console.log("wait")
         // console.log(arr[0].Status)
@@ -95,20 +106,10 @@ the lift state it will be called on the press of the button:
   task 2: Add proper structuring for nearest array
   task 3: think about lift prority or randomness
 */
-function checkAvailability(arr,buttonNum){
-    nearest = []
-    console.log(arr)
-    arr.map((a)=>{
-            // let k = `lift${i}CurrentFloor`
-        //console.log(a.liftCurrentFloor)
-        if(a.Status == true){
-            nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
-        }else nearest.push(1000)
-        console.log(`nearest Array: ${nearest}`)
-        let minValue = Math.min(...nearest);
-        index = nearest.indexOf(minValue);
-})
-}
+// function checkAvailability(arr,buttonNum){
+    
+// })
+// }
 
 
     /*I think of two ways of creating lift movement:

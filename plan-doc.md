@@ -25,3 +25,4 @@ Task:
 2. Add event listener to negative floor buttons
 3. Disable button feature
 4. Add door opening and closing animation to lift
+5. Add reset button
