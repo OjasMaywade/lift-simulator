@@ -7,7 +7,12 @@ let numberOfFloor, numberOfLifts, arr = [], nearest=[];
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
    numberOfFloor = document.forms["form"]["Floors"].value;
-    
+
+   //Input Validation
+   if(numberOfLifts <= 0 ){
+    alert(`Invalid input: No. of lifts cannot be ${numberOfLifts}. Please enter value more than or equal to 1`);
+    return "Invalid"
+   }
    //This function will add groud floor with no. of lifts and button
 function createSimulator(){
    if(numberOfFloor<0){
@@ -23,8 +28,6 @@ function createSimulator(){
    for(i=0;i<numberOfLifts;i++){
     const createLifts = document.createElement("div")
     createLifts.classList.add("lifts", `lift-${i}`)
-    // const floor = document.querySelector(".floorLine-0");
-    //floor.parentNode.insertBefore(createLifts,floor);
     document.querySelector(".lift-container").appendChild(createLifts)
     const lift = document.querySelector(`.lift-${i}`);
     lift.dataset.currentFloor = 0;
@@ -88,6 +91,47 @@ for(i=0;i<=numberOfFloor*2;i++){
     })
 }
 
+for(i=0;i>=numberOfFloor*2;i--){
+    document.querySelectorAll(".liftCall")[Math.abs(i)].addEventListener("click", (event)=>{         
+        const button = event.target.classList[1];
+        const buttonNum = Number(button.at(button.length-1));
+        nearest = []
+    console.log(arr)
+    arr.map((a)=>{
+        if(a.Status == true){
+            nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
+        }else {nearest.push(1000)}
+        console.log(`nearest Array: ${nearest}`)
+    })
+    let minValue = Math.min(...nearest);
+        let index = nearest.indexOf(minValue);
+        // checkAvailability(arr,buttonNum);
+        /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
+        console.log(`index: ${index}`)
+        if(nearest[index]!=1000){
+        const lift1 = document.querySelector(`.lift-${index}`);
+        console.log(lift1)
+        const pixel = (buttonNum)*161;
+        lift1.dataset.currentFloor = `${buttonNum}`;
+        lift1.style.transform = `translateY(${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[index].liftCurrentFloor));
+        lift1.style.transitionDuration = `${duration}s`; 
+        arr[index].liftCurrentFloor = lift1.dataset.currentFloor;
+        arr[index].Status = 0;
+        let t = (duration + 5)*1000;
+        console.log(`time: ${t}`)
+        setTimeout(()=>{
+            console.log(`setTimeout index: ${index}`)
+            arr[index].Status = 1;
+            console.log(`array status: ${arr[index].Status}, index: ${index}`);
+        }, t);
+    }else console.log("wait")
+        // console.log(arr[0].Status)
+        //document.getElementById("myBtn").disabled = true;
+        
+    })
+}
+
 
 
     /*
@@ -102,25 +146,10 @@ the lift state it will be called on the press of the button:
 
 
 })
-/*task 1: Add setTimeout to lift for 5 + travelling time
-  task 2: Add proper structuring for nearest array
-  task 3: think about lift prority or randomness
-*/
-// function checkAvailability(arr,buttonNum){
-    
-// })
-// }
-
-
-    /*I think of two ways of creating lift movement:
-    1. using transform and transition
-    2. using HTML game 
-    
-    */
-//event.preventDefault();
 
 //this function will add no. of floors and there respective button
 function addFloors(numberOfFloor,numberOfLifts,i){    
+    i = Math.abs(i);
     const addDiv = document.createElement("div"); 
             addDiv.classList.add("floorDiv", `floorDiv-${i}`);
             if(i==0){
@@ -128,7 +157,7 @@ function addFloors(numberOfFloor,numberOfLifts,i){
             const text = document.createTextNode("Ground Floor")
             floorName.appendChild(text);
             addDiv.appendChild(floorName);
-            upButton(addDiv);
+            upButton(addDiv,i);
             const addLiftContainer = document.createElement("div");
             addLiftContainer.classList.add("lift-container");
             addDiv.appendChild(addLiftContainer);
@@ -137,14 +166,14 @@ function addFloors(numberOfFloor,numberOfLifts,i){
             const text = document.createTextNode(`${numberOfFloor} Floor`);
             floorName.appendChild(text)
             addDiv.appendChild(floorName);
-             downButton(addDiv)
+             downButton(addDiv,i)
             }else{
             const floorName = document.createElement("p");
             const text = document.createTextNode(`${i} Floor`);
             floorName.appendChild(text);
             addDiv.appendChild(floorName);
-            upButton(addDiv);
-            downButton(addDiv)
+            upButton(addDiv,i);
+            downButton(addDiv,i)
             }
                //add floor platform 
              const hr = document.createElement("hr");
@@ -155,7 +184,7 @@ function addFloors(numberOfFloor,numberOfLifts,i){
                 document.querySelector(".add").appendChild(addDiv)
         }
 
-function upButton(addDiv){
+function upButton(addDiv,i){
     const addButton = document.createElement("button");
     addButton.classList.add("liftCall",`up${i}`);
     addButton.type = "button"
@@ -163,7 +192,7 @@ function upButton(addDiv){
     addDiv.appendChild(addButton)
 }
 
-function downButton(addDiv){
+function downButton(addDiv,i){
     const addButton = document.createElement("button");
              addButton.classList.add("liftCall",`down${i}`);
              addButton.innerHTML = "DOWN"
@@ -203,44 +232,3 @@ the lift state it will be called on the press of the button:
 		
 	Here, we first create a HTML element "div" and next we gave it some properties. We create another element h1 and append it to create, and after this we append create to div with class ".add"
  */
-
-
-
-
-
-// Transform and transition of lift
-
-
-/*document.querySelector(".up1").addEventListener("click",(event)=>{
-    console.log("hi")
-    const lift1 = document.querySelector(".lift-0");
-    lift1.style.transform = "translate(0px,-50px)"
-    })
-    document.querySelector(".up2").addEventListener("click",(event)=>{
-        //console.log("hi")
-        const lift1 = document.querySelector(".lift-0");
-        lift1.style.transform = "translateY(-100px)"
-        })*/
-
-
-
-
-
-
-    /*for(i=0;i<numberOfLifts;i++){
-    const create = document.createElement("div")
-    create.classList.add("child")
-    create.style.height = "20px";
-    create.style.width = "20px";
-    create.style.margin = "20px";
-    create.style.color = "green"
-    create.style.backgroundColor = "green";
-    document.querySelector(".add").appendChild(create)
-
-}*/
-/*for(i=0;i<numberOfFloor;i++){
-    const floorLine = document.createElement("hr")
-    //create.classList.add("child")
-    // floorLine.style.size = "4px";
-    document.body.appendChild(floorLine)
-}*/

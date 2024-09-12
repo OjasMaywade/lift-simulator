@@ -1,7 +1,5 @@
 .main{
-    
     height: 300px;
-
 }
 .up{
     font-size: 16px;
@@ -44,6 +42,8 @@ transition-timing-function: linear;
 .lift-container{
     display: flex;
     flex-direction: row;
+    position: relative;
+    left: 100px;
 }
 /* define design for all small component and animation*/
 
@@ -57,10 +57,6 @@ hr.floorLine-0{
     top:-28px;
 }
 
-.lift-container{
-    position: relative;
-    left: 150px
-}
 .floorDiv-0{
  display: inline-block; /* Solve problem of lift size cutting if the no. of lifts are more*/
 }
