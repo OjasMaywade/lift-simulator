@@ -59,6 +59,7 @@ hr.floorLine-0{
 
 .floorDiv-0{
  display: inline-block; /* Solve problem of lift size cutting if the no. of lifts are more*/
+ 
 }
 
 .floorDiv > p {
@@ -69,4 +70,12 @@ hr.floorLine-0{
 .liftCall {
     position: relative;
     top: 50px;
+}
+
+.invisible{
+    visibility: hidden;
+}
+.basement{
+position: relative;
+ top: 43px;
 }

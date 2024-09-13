@@ -23,6 +23,13 @@ Task:
  i. lift is getting diabled after a single call
  ii. 
 2. Add event listener to negative floor buttons
-3. Disable button feature
+3. Disable button feature - Done
 4. Add door opening and closing animation to lift
 5. Add reset button
+6. same button is calling two different lift at same time
+7. Make input validation  - Done
+8. lifts are moving out of container when increased to 20+
+9. Simulator state is not getting updated 
+
+
+State Management

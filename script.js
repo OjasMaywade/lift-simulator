@@ -3,6 +3,7 @@
 
 
 let numberOfFloor, numberOfLifts, arr = [], nearest=[];
+const upPixel = 161;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
@@ -11,6 +12,7 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
    //Input Validation
    if(numberOfLifts <= 0 ){
     alert(`Invalid input: No. of lifts cannot be ${numberOfLifts}. Please enter value more than or equal to 1`);
+    location.reload()
     return "Invalid"
    }
    //This function will add groud floor with no. of lifts and button
@@ -22,6 +24,7 @@ function createSimulator(){
     }else if(numberOfFloor>0){
     for(i=numberOfFloor;i>=0;i--){
         addFloors(numberOfFloor,numberOfLifts,i)
+        // document.querySelector(".floorDiv-0").classList.add("basement")
     }
    }
    //adding lifts
@@ -38,56 +41,41 @@ function createSimulator(){
 }
 createSimulator();
 
+const subBtn = document.querySelector(".main");
+// subBtn.innerHTML = "Reset";
+subBtn.classList.add("invisible");
+// subBtn.classList.add("reset");
 
-        
-        /*document.querySelector(".sub").addEventListener("click",()=>{
-            remove();
-            createSimulator();
-        })*/
-function remove(){
- // if user click on submit then this function remove all the floors and lifts if already there are some 
- document.querySelector(".add").remove();
-}
+
+
 
 for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
-        //console.log(arr)
         const button = event.target.classList[1];
         const buttonNum = Number(button.at(button.length-1));
-        nearest = []
-    console.log(arr)
-    arr.map((a)=>{
-        if(a.Status == true){
-            nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
-        }else {nearest.push(1000)}
-        console.log(`nearest Array: ${nearest}`)
-    })
-    let minValue = Math.min(...nearest);
-        let index = nearest.indexOf(minValue);
-        // checkAvailability(arr,buttonNum);
-        /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
-        console.log(`index: ${index}`)
-        if(nearest[index]!=1000){
-        const lift1 = document.querySelector(`.lift-${index}`);
-        console.log(lift1)
-        const pixel = (buttonNum)*161;
-        lift1.dataset.currentFloor = `${buttonNum}`;
-        lift1.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
-        const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[index].liftCurrentFloor));
-        lift1.style.transitionDuration = `${duration}s`; 
-        arr[index].liftCurrentFloor = lift1.dataset.currentFloor;
-        arr[index].Status = 0;
-        let t = (duration + 5)*1000;
-        console.log(`time: ${t}`)
-        setTimeout(()=>{
-            console.log(`setTimeout index: ${index}`)
-            arr[index].Status = 1;
-            console.log(`array status: ${arr[index].Status}, index: ${index}`);
-        }, t);
-    }else console.log("wait")
-        // console.log(arr[0].Status)
-        //document.getElementById("myBtn").disabled = true;
         
+        const index = checkAvailability(arr,buttonNum);
+        /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
+        if(nearest[index]!=1000){
+        const lift = document.querySelector(`.lift-${index}`);
+        const pixel = (buttonNum)*upPixel;
+        lift.dataset.currentFloor = `${buttonNum}`;
+        lift.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
+        lift.style.transitionDuration = `${duration}s`; 
+        arr[index].liftCurrentFloor = lift.dataset.currentFloor;
+        arr[index].Status = 0;
+        // console.log(button)
+        document.querySelector(`.${button}`).disabled = true;
+        let t = (duration + 5)*1000;
+        // console.log(`time: ${t}`)
+        setTimeout(()=>{
+            // console.log(`setTimeout index: ${index}`)
+            arr[index].Status = 1;
+            // console.log(`array status: ${arr[index].Status}, index: ${index}`);
+            document.querySelector(`.${button}`).disabled = false;
+        }, t);
+    }else console.log("wait")        
     })
 }
 
@@ -95,64 +83,54 @@ for(i=0;i>=numberOfFloor*2;i--){
     document.querySelectorAll(".liftCall")[Math.abs(i)].addEventListener("click", (event)=>{         
         const button = event.target.classList[1];
         const buttonNum = Number(button.at(button.length-1));
-        nearest = []
-    console.log(arr)
-    arr.map((a)=>{
-        if(a.Status == true){
-            nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
-        }else {nearest.push(1000)}
-        console.log(`nearest Array: ${nearest}`)
-    })
-    let minValue = Math.min(...nearest);
-        let index = nearest.indexOf(minValue);
-        // checkAvailability(arr,buttonNum);
+        
+        const index = checkAvailability(arr,buttonNum);;
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
-        console.log(`index: ${index}`)
+        // console.log(`index: ${index}`)
         if(nearest[index]!=1000){
-        const lift1 = document.querySelector(`.lift-${index}`);
-        console.log(lift1)
-        const pixel = (buttonNum)*161;
-        lift1.dataset.currentFloor = `${buttonNum}`;
-        lift1.style.transform = `translateY(${pixel}px)`; // define transition seconds according to the number of floor gap it has
-        const duration = 2*(Math.abs(lift1.dataset.currentFloor - arr[index].liftCurrentFloor));
-        lift1.style.transitionDuration = `${duration}s`; 
-        arr[index].liftCurrentFloor = lift1.dataset.currentFloor;
+        const lift = document.querySelector(`.lift-${index}`);
+        const pixel = (buttonNum)*upPixel;
+        lift.dataset.currentFloor = `${buttonNum}`;
+        lift.style.transform = `translateY(${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
+        lift.style.transitionDuration = `${duration}s`; 
+        arr[index].liftCurrentFloor = lift.dataset.currentFloor;
         arr[index].Status = 0;
+        document.querySelector(`.${button}`).disabled = true;
         let t = (duration + 5)*1000;
         console.log(`time: ${t}`)
         setTimeout(()=>{
             console.log(`setTimeout index: ${index}`)
             arr[index].Status = 1;
             console.log(`array status: ${arr[index].Status}, index: ${index}`);
+            document.querySelector(`.${button}`).disabled = false;
         }, t);
-    }else console.log("wait")
-        // console.log(arr[0].Status)
-        //document.getElementById("myBtn").disabled = true;
-        
+    }else console.log("wait")     
     })
 }
-
-
-
-    /*
-    we have to store the state of all the lifts, like on which floor they are in and currently busy or not. depending on the state of 
-the lift state it will be called on the press of the button:
- i) if all the lift are on the ground floor and someone calls the lift on any floor then lift 1 will move.
- ii) if someone calls a lift and their is already a lift on that floor then doors of that lift will open.
- iii) lift nearest to the floor on which the button is pressed will move if it is not busy else number 2 priority lift will move 
- */
-/* 1. We can disable call button for required duration using settimeout and .disable method */
-
-
-
 })
+
+// const btn = document.querySelector("button");
+//     console.log(btn)
+//     btn.addEventListener("click", ()=>{
+//     // location.reload(true)
+//     // const Btn = document.querySelector(".reset");   
+//     btn.innerHTML = "Submit";
+//     btn.classList.remove("reset");
+//     btn.classList.add("sub");
+// })
+
+
+
 
 //this function will add no. of floors and there respective button
 function addFloors(numberOfFloor,numberOfLifts,i){    
-    i = Math.abs(i);
-    const addDiv = document.createElement("div"); 
+    // i = Math.abs(i);
+            const addDiv = document.createElement("div"); 
             addDiv.classList.add("floorDiv", `floorDiv-${i}`);
+            
             if(i==0){
+                if(numberOfFloor<0) addDiv.classList.add("basement");
             const floorName = document.createElement("p");
             const text = document.createTextNode("Ground Floor")
             floorName.appendChild(text);
@@ -200,7 +178,18 @@ function downButton(addDiv,i){
 }
 
 
-
+function checkAvailability(arr,buttonNum){
+    nearest = []
+    arr.map((a)=>{
+    if(a.Status == true){
+        nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
+    }else {nearest.push(1000)}
+    console.log(`nearest Array: ${nearest}`)
+})
+    let minValue = Math.min(...nearest);
+    let index = nearest.indexOf(minValue);
+    return index
+}
 
 
 
@@ -232,3 +221,15 @@ the lift state it will be called on the press of the button:
 		
 	Here, we first create a HTML element "div" and next we gave it some properties. We create another element h1 and append it to create, and after this we append create to div with class ".add"
  */
+
+
+
+    
+    /*
+    we have to store the state of all the lifts, like on which floor they are in and currently busy or not. depending on the state of 
+the lift state it will be called on the press of the button:
+ i) if all the lift are on the ground floor and someone calls the lift on any floor then lift 1 will move.
+ ii) if someone calls a lift and their is already a lift on that floor then doors of that lift will open.
+ iii) lift nearest to the floor on which the button is pressed will move if it is not busy else number 2 priority lift will move 
+ */
+/* 1. We can disable call button for required duration using settimeout and .disable method */
