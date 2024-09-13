@@ -19,14 +19,12 @@ Errors: 1. Throw a alert if user doesn't select both the field and click on star
 
 
 Task:
-1. Solve issue with Lift calling
- i. lift is getting diabled after a single call
- ii. 
-2. Add event listener to negative floor buttons
+1. Solve issue with Lift calling - Done
+2. Add event listener to negative floor buttons - Done
 3. Disable button feature - Done
-4. Add door opening and closing animation to lift
-5. Add reset button
-6. same button is calling two different lift at same time
+4. Add door opening and closing animation to lift - imp
+5. Add reset button - added but not working as intended
+6. same button is calling two different lift at same time - Done
 7. Make input validation  - Done
 8. lifts are moving out of container when increased to 20+
 9. Simulator state is not getting updated 

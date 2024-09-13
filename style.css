@@ -11,6 +11,7 @@
 .floorLine{
     height: 4px;
     background-color: grey;
+    z-index: -1;
 }
 .floorDiv{
     height: 144.44px;

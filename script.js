@@ -10,8 +10,8 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfFloor = document.forms["form"]["Floors"].value;
 
    //Input Validation
-   if(numberOfLifts <= 0 ){
-    alert(`Invalid input: No. of lifts cannot be ${numberOfLifts}. Please enter value more than or equal to 1`);
+   if(numberOfLifts <= 0 || numberOfFloor == 0){
+    alert(`Invalid input: No. of lifts / No. of Floor cannot be zero or less than zero. Please enter value more than or equal to 1`);
     location.reload()
     return "Invalid"
    }
@@ -24,7 +24,6 @@ function createSimulator(){
     }else if(numberOfFloor>0){
     for(i=numberOfFloor;i>=0;i--){
         addFloors(numberOfFloor,numberOfLifts,i)
-        // document.querySelector(".floorDiv-0").classList.add("basement")
     }
    }
    //adding lifts
@@ -128,7 +127,6 @@ function addFloors(numberOfFloor,numberOfLifts,i){
     // i = Math.abs(i);
             const addDiv = document.createElement("div"); 
             addDiv.classList.add("floorDiv", `floorDiv-${i}`);
-            
             if(i==0){
                 if(numberOfFloor<0) addDiv.classList.add("basement");
             const floorName = document.createElement("p");
