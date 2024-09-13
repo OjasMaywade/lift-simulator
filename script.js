@@ -108,7 +108,15 @@ for(i=0;i>=numberOfFloor*2;i--){
         arr[index].Status = 0;
         document.querySelector(`.${button}`).disabled = true;
         let t = (duration + 5)*1000;
-        console.log(`time: ${t}`)
+        // console.log(`time: ${t}`)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "0px";
+        },duration*1000)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "40px";
+        },(duration+2.5)*1000)
         setTimeout(()=>{
             console.log(`setTimeout index: ${index}`)
             arr[index].Status = 1;
