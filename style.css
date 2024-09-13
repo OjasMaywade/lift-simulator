@@ -23,8 +23,10 @@
     width: 40px;
     height: 70px;
     display: flexbox;
-    background-color: green;
+    background-color: gray;
     margin: 20px;
+    transition: transform;
+    transition-timing-function: linear;
     /* Here decribe about lifts*/
 }
 text{
@@ -35,9 +37,11 @@ text{
     width: 10px;
 }
 
-.lifts{
-transition: transform;
-transition-timing-function: linear;
+.liftDoor{
+    width: 40px;
+    height: 70px;
+    transition: width 2.5s;
+    background-color: #9DBDFF;
 }
 
 .lift-container{

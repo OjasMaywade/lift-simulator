@@ -19,7 +19,7 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
 function createSimulator(){
    if(numberOfFloor<0){
    for(i=0;i>=numberOfFloor;i--){
-            addFloors(numberOfFloor,numberOfLifts,i)
+        addFloors(numberOfFloor,numberOfLifts,i)
         }
     }else if(numberOfFloor>0){
     for(i=numberOfFloor;i>=0;i--){
@@ -28,9 +28,12 @@ function createSimulator(){
    }
    //adding lifts
    for(i=0;i<numberOfLifts;i++){
-    const createLifts = document.createElement("div")
-    createLifts.classList.add("lifts", `lift-${i}`)
-    document.querySelector(".lift-container").appendChild(createLifts)
+    const createLifts = document.createElement("div");
+    createLifts.classList.add("lifts", `lift-${i}`);
+    document.querySelector(".lift-container").appendChild(createLifts);
+    const createDoor = document.createElement("div");
+    createDoor.classList.add("liftDoor", `liftDoor${i}`)
+    createLifts.appendChild(createDoor);
     const lift = document.querySelector(`.lift-${i}`);
     lift.dataset.currentFloor = 0;
     lift.style.transform = `translateY(0px)`;
@@ -68,6 +71,14 @@ for(i=0;i<=numberOfFloor*2;i++){
         document.querySelector(`.${button}`).disabled = true;
         let t = (duration + 5)*1000;
         // console.log(`time: ${t}`)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "0px";
+        },duration*1000)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "40px";
+        },(duration+2.5)*1000)
         setTimeout(()=>{
             // console.log(`setTimeout index: ${index}`)
             arr[index].Status = 1;
