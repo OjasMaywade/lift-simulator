@@ -8,7 +8,9 @@ const upPixel = 161;
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
    numberOfFloor = document.forms["form"]["Floors"].value;
-
+   
+   const lineWidth = 85*numberOfLifts + 80;
+    document.querySelector(".add").style.width = `${lineWidth}px`
    //Input Validation
    if(numberOfLifts <= 0 || numberOfFloor == 0){
     alert(`Invalid input: No. of lifts / No. of Floor cannot be zero or less than zero. Please enter value more than or equal to 1`);
@@ -173,7 +175,9 @@ function addFloors(numberOfFloor,numberOfLifts,i){
                //add floor platform 
              const hr = document.createElement("hr");
               hr.classList.add("floorLine", `floorLine-${i}`)
-                 addDiv.appendChild(hr);
+            //   const lineWidth = 85*numberOfLifts + 80;
+            //   hr.style.width = `${lineWidth}px`;
+              addDiv.appendChild(hr);
                  
                 //adding floor divs on DOM
                 document.querySelector(".add").appendChild(addDiv)

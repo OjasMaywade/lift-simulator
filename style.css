@@ -1,5 +1,14 @@
+body{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
 .main{
     height: 300px;
+}
+.add{
+    width: 100%;
+    box-sizing: border-box;
 }
 .up{
     font-size: 16px;
@@ -11,10 +20,11 @@
 .floorLine{
     height: 4px;
     background-color: grey;
-    z-index: -1;
+    z-index: -1
 }
 .floorDiv{
     height: 144.44px;
+    display: block;
 }
 /*.floorDiv-1{
     height: 100px;
@@ -22,7 +32,7 @@
 .lifts{
     width: 40px;
     height: 70px;
-    display: flexbox;
+    display: flex;
     background-color: gray;
     margin: 20px;
     transition: transform;
@@ -55,6 +65,7 @@ text{
 hr.floorLine{
     position: relative;
     top: 80px;
+    margin: 8px 0px;
 }
 
 hr.floorLine-0{
@@ -62,11 +73,10 @@ hr.floorLine-0{
     top:-28px;
 }
 
-.floorDiv-0{
- display: inline-block; /* Solve problem of lift size cutting if the no. of lifts are more*/
- 
-}
-
+/*.floorDiv-0{
+    display: inline-block; /*Solve problem of lift size cutting if the no. of lifts are more
+   }*/
+   
 .floorDiv > p {
     position: relative;
     top: 50px;
