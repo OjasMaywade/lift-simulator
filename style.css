@@ -73,9 +73,10 @@ hr.floorLine-0{
     top:-28px;
 }
 
-/*.floorDiv-0{
-    display: inline-block; /*Solve problem of lift size cutting if the no. of lifts are more
-   }*/
+.floorDiv-0{
+    /*display: inline-block; /*Solve problem of lift size cutting if the no. of lifts are more*/
+    padding-bottom: 48px;
+   }
    
 .floorDiv > p {
     position: relative;

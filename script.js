@@ -24,11 +24,12 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
    //This function will add groud floor with no. of lifts and button
 function createSimulator(){
    if(numberOfFloor<0){
-   for(i=0;i>=numberOfFloor;i--){
+    const n =Number(numberOfFloor)+1;
+   for(i=0;i>=n;i--){
         addFloors(numberOfFloor,numberOfLifts,i)
         }
     }else if(numberOfFloor>0){
-    for(i=numberOfFloor;i>=0;i--){
+    for(i=numberOfFloor-1;i>=0;i--){
         addFloors(numberOfFloor,numberOfLifts,i)
     }
    }
