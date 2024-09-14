@@ -12,8 +12,12 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
    const lineWidth = 85*numberOfLifts + 80;
     document.querySelector(".add").style.width = `${lineWidth}px`
    //Input Validation
-   if(numberOfLifts <= 0 || numberOfFloor == 0){
-    alert(`Invalid input: No. of lifts / No. of Floor cannot be zero or less than zero. Please enter value more than or equal to 1`);
+   if(numberOfLifts <= 0){
+    alert(`Invalid input: No. of lifts cannot be ${numberOfLifts}. Please enter value more than or equal to 1`);
+    location.reload()
+    return "Invalid"
+   }else if(numberOfFloor == 1 || numberOfFloor == 0){
+    alert(`Invalid input: No. of Floor cannot be ${numberOfFloor}. Please enter value more than or equal to 2`);
     location.reload()
     return "Invalid"
    }
@@ -56,8 +60,8 @@ subBtn.classList.add("invisible");
 for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
         const button = event.target.classList[1];
-        const buttonNum = Number(button.at(button.length-1));
-        
+        const buttonNum = Number(button.split("-")[1]);
+        console.log(`button Number: ${buttonNum}, button: ${button}`)
         const index = checkAvailability(arr,buttonNum);
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         if(nearest[index]!=1000){
@@ -94,8 +98,8 @@ for(i=0;i<=numberOfFloor*2;i++){
 for(i=0;i>=numberOfFloor*2;i--){
     document.querySelectorAll(".liftCall")[Math.abs(i)].addEventListener("click", (event)=>{         
         const button = event.target.classList[1];
-        const buttonNum = Number(button.at(button.length-1));
-        
+        const buttonNum = Number(button.split("-")[1]);
+        console.log(`button Number: ${buttonNum}, button: ${button}`)
         const index = checkAvailability(arr,buttonNum);;
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         // console.log(`index: ${index}`)
@@ -103,7 +107,7 @@ for(i=0;i>=numberOfFloor*2;i--){
         const lift = document.querySelector(`.lift-${index}`);
         const pixel = (buttonNum)*upPixel;
         lift.dataset.currentFloor = `${buttonNum}`;
-        lift.style.transform = `translateY(${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        lift.style.transform = `translateY( ${pixel}px)`; // define transition seconds according to the number of floor gap it has
         const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
         lift.style.transitionDuration = `${duration}s`; 
         arr[index].liftCurrentFloor = lift.dataset.currentFloor;
@@ -184,16 +188,18 @@ function addFloors(numberOfFloor,numberOfLifts,i){
         }
 
 function upButton(addDiv,i){
+    i = Math.abs(i);
     const addButton = document.createElement("button");
-    addButton.classList.add("liftCall",`up${i}`);
+    addButton.classList.add("liftCall",`up-${i}`);
     addButton.type = "button"
     addButton.innerHTML = "UP"
     addDiv.appendChild(addButton)
 }
 
 function downButton(addDiv,i){
+    i = Math.abs(i);
     const addButton = document.createElement("button");
-             addButton.classList.add("liftCall",`down${i}`);
+             addButton.classList.add("liftCall",`down-${i}`);
              addButton.innerHTML = "DOWN"
              addDiv.appendChild(addButton)
 }
@@ -203,6 +209,7 @@ function checkAvailability(arr,buttonNum){
     nearest = []
     arr.map((a)=>{
     if(a.Status == true){
+        console.log(Math.abs(a.liftCurrentFloor - buttonNum)    )
         nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
     }else {nearest.push(1000)}
     console.log(`nearest Array: ${nearest}`)
