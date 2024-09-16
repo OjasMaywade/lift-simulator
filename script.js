@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts, arr = [], nearest=[];
+let numberOfFloor, numberOfLifts, arr = [], nearest=[], liftCallSequence = [];
 const upPixel = 161;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
@@ -45,7 +45,7 @@ function createSimulator(){
     lift.dataset.currentFloor = 0;
     lift.style.transform = `translateY(0px)`;
     let key = `liftCurrentFloor`;
-    arr.push({[key]: `${lift.dataset.currentFloor}`, Status: 1})
+    arr.push({[key]: `${lift.dataset.currentFloor}`, Status: 1, time: 0})
     } 
 }
 createSimulator();
@@ -56,17 +56,18 @@ subBtn.classList.add("invisible");
 // subBtn.classList.add("reset");
 
 
-
-
 for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
         const button = event.target.classList[1];
         const buttonNum = Number(button.split("-")[1]);
+        liftCallSequence.push(buttonNum);
         console.log(`button Number: ${buttonNum}, button: ${button}`)
-        const index = checkAvailability(arr,buttonNum);
+        const index = checkAvailability(arr, liftCallSequence, buttonNum);
+        console.log(`index at click: ${index}`)
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
-        if(nearest[index]!=1000){
+        if(arr[index].Status!=false){
         const lift = document.querySelector(`.lift-${index}`);
+        console.log(`liftCallSequence: ${liftCallSequence}`);
         const pixel = (buttonNum)*upPixel;
         lift.dataset.currentFloor = `${buttonNum}`;
         lift.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
@@ -77,6 +78,7 @@ for(i=0;i<=numberOfFloor*2;i++){
         // console.log(button)
         document.querySelector(`.${button}`).disabled = true;
         let t = (duration + 5)*1000;
+        arr[index].time = t;
         // console.log(`time: ${t}`)
         setTimeout(()=>{
             const liftDoor = document.querySelector(`.liftDoor${index}`)
@@ -92,7 +94,47 @@ for(i=0;i<=numberOfFloor*2;i++){
             // console.log(`array status: ${arr[index].Status}, index: ${index}`);
             document.querySelector(`.${button}`).disabled = false;
         }, t);
-    }else console.log("wait")        
+    }else {
+        console.log("Wait")
+        document.querySelector(`.${button}`).disabled = true;
+        console.log(`arr at else: ${arr}`)
+        const index = checkAvailability(arr,liftCallSequence,buttonNum);
+        console.log(`index at Else: ${index}`);
+
+        setTimeout(()=>{
+            const lift = document.querySelector(`.lift-${index}`);
+        console.log(`liftCallSequence: ${liftCallSequence}`);
+        const pixel = (buttonNum)*upPixel;
+        lift.dataset.currentFloor = `${buttonNum}`;
+        lift.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
+        lift.style.transitionDuration = `${duration}s`; 
+        arr[index].liftCurrentFloor = lift.dataset.currentFloor;
+        arr[index].Status = 0;
+        // console.log(button)
+        document.querySelector(`.${button}`).disabled = true;
+        let t = (duration + 5)*1000;
+        arr[index].time = t;
+        // console.log(`time: ${t}`)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "0px";
+        },duration*1000)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "40px";
+        },(duration+2.5)*1000)
+        setTimeout(()=>{
+            // console.log(`setTimeout index: ${index}`)
+            arr[index].Status = 1;
+            // console.log(`array status: ${arr[index].Status}, index: ${index}`);
+            document.querySelector(`.${button}`).disabled = false;
+        }, t);
+        },arr[index].time)
+        // liftCallSequence.push(buttonNum);
+        // console.log(`liftCallSequence: ${liftCallSequence}`);
+
+    }// have to build the button queued feature here ?   
     })
 }
 
@@ -101,9 +143,9 @@ for(i=0;i>=numberOfFloor*2;i--){
         const button = event.target.classList[1];
         const buttonNum = Number(button.split("-")[1]);
         console.log(`button Number: ${buttonNum}, button: ${button}`)
-        const index = checkAvailability(arr,buttonNum);;
+        const index = checkAvailability(arr, liftCallSequence, buttonNum)[0];
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
-        // console.log(`index: ${index}`)
+        console.log(`index: ${index}`)
         if(nearest[index]!=1000){
         const lift = document.querySelector(`.lift-${index}`);
         const pixel = (buttonNum)*upPixel;
@@ -183,7 +225,6 @@ function addFloors(numberOfFloor,numberOfLifts,i){
             //   const lineWidth = 85*numberOfLifts + 80;
             //   hr.style.width = `${lineWidth}px`;
               addDiv.appendChild(hr);
-                 
                 //adding floor divs on DOM
                 document.querySelector(".add").appendChild(addDiv)
         }
@@ -206,18 +247,40 @@ function downButton(addDiv,i){
 }
 
 
-function checkAvailability(arr,buttonNum){
+function checkAvailability(arr,liftCallSequence,buttonNum){
     nearest = []
+    //console.log(arr)
     arr.map((a)=>{
-    if(a.Status == true){
-        console.log(Math.abs(a.liftCurrentFloor - buttonNum)    )
-        nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
-    }else {nearest.push(1000)}
-    console.log(`nearest Array: ${nearest}`)
+    if(a.Status == false){
+        console.log(typeof a.liftCurrentFloor )
+        //a.Status
+        nearest.push(Number(a.liftCurrentFloor))
+    }else if(a.Status == true){
+    //     if(liftCallSequence != []){
+    //     console.log(`liftcallsequemceinif: ${liftCallSequence}`)
+    //     console.log(`nearest Array: ${nearest}`)    
+    // console.log(liftCallSequence)
+    // const len = liftCallSequence.length;
+    // const lastCall = liftCallSequence[len-1]
+    // console.log(`lastCall:${lastCall}`)
+    // // console.log(`nearest num: ${Math.abs(a.liftCurrentFloor - buttonNum)}`)
+    // nearest.push(Math.abs(a.liftCurrentFloor - lastCall))
+    //     }
+       
+    // console.log(`liftCallSequence: ${liftCallSequence[0]}`)
+    const len = liftCallSequence.length;
+    const lastCall = liftCallSequence[len-1]
+    console.log(`arr at avai:${a.liftCurrentFloor}`)
+    console.log(`nearest num: ${Math.abs(a.liftCurrentFloor - lastCall)}`)
+    nearest.push(Math.abs(a.liftCurrentFloor - lastCall))
+    console.log(`nearest Array: ${nearest}`) 
+    }    
 })
     let minValue = Math.min(...nearest);
     let index = nearest.indexOf(minValue);
-    return index
+    console.log(`minValue: ${minValue}`)
+    console.log(`index at avai: ${index}`)
+    return index;   
 }
 
 

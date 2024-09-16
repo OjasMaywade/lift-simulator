@@ -22,12 +22,22 @@ Task:
 1. Solve issue with Lift calling - Done
 2. Add event listener to negative floor buttons - Done
 3. Disable button feature - Done
-4. Add door opening and closing animation to lift - imp
+4. Add door opening and closing animation to lift - imp - Done
 5. Add reset button - added but not working as intended
 6. same button is calling two different lift at same time - Done
 7. Make input validation  - Done
-8. lifts are moving out of container when increased to 20+
-9. Simulator state is not getting updated 
+8. lifts are moving out of container when increased to 20+ - Done
+9. Simulator state is not getting updated
+10. when all lifts are engaged in movements and now if buttons is clicked, then these actions are not queued 
+
+
+Call sequence
+1. Currently our app is not recording call sequence 
+2. tried various step for tracking the sequence of all the call but all this method did not work out, now i'm thinking about another method where we can track all the button clicks in an array.
+now we have to think a way from which we can go through all the clicks and then call the nearest and available lift
+
 
 
 State Management
+1. If resubmitted compare with the previous no. of lifts and floor. and add/remove that number of lifts and floor from the state.
+2. same do for negative floors
