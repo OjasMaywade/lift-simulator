@@ -62,7 +62,7 @@ for(i=0;i<=numberOfFloor*2;i++){
         const buttonNum = Number(button.split("-")[1]);
         
         console.log(`button Number: ${buttonNum}, button: ${button}`)
-        const index = checkAvailability(arr, liftCallSequence, buttonNum);
+        const index = checkAvailability(arr,buttonNum);
         //console.log(`index at click: ${index}`)
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         if(arr[index].Status!=false){
@@ -110,7 +110,12 @@ for(i=0;i>=numberOfFloor*2;i--){
             console.log(`array status: ${arr[index].Status}, index: ${index}`);
             document.querySelector(`.${button}`).disabled = false;
         }, t);
-    }else console.log("wait")     
+    }else {
+        console.log("wait")
+        liftCallSequence.push(buttonNum);
+        document.querySelector(`.${button}`).disabled = true;
+        buttonArr.push(button);
+    }     
     })
 }
 })
@@ -211,6 +216,7 @@ function checkAvailability(arr,buttonNum){
     // const lastCall = liftCallSequence[len-1]
     // console.log(`arr at avai:${a.liftCurrentFloor}`)
     // console.log(`nearest num: ${Math.abs(a.liftCurrentFloor - lastCall)}`)
+    console.log(`nearest at avai: ${Math.abs(a.liftCurrentFloor - buttonNum)}`)
     nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
     console.log(`nearest Array: ${nearest}`) 
     }    
