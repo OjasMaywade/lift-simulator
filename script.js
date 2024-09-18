@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts, arr = [], nearest=[], liftCallSequence = [];
+let numberOfFloor, numberOfLifts, arr = [], nearest=[], liftCallSequence = [], time=[];
 const upPixel = 161;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
@@ -60,80 +60,16 @@ for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
         const button = event.target.classList[1];
         const buttonNum = Number(button.split("-")[1]);
-        liftCallSequence.push(buttonNum);
+        
         console.log(`button Number: ${buttonNum}, button: ${button}`)
         const index = checkAvailability(arr, liftCallSequence, buttonNum);
-        console.log(`index at click: ${index}`)
+        //console.log(`index at click: ${index}`)
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         if(arr[index].Status!=false){
-        const lift = document.querySelector(`.lift-${index}`);
-        console.log(`liftCallSequence: ${liftCallSequence}`);
-        const pixel = (buttonNum)*upPixel;
-        lift.dataset.currentFloor = `${buttonNum}`;
-        lift.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
-        const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
-        lift.style.transitionDuration = `${duration}s`; 
-        arr[index].liftCurrentFloor = lift.dataset.currentFloor;
-        arr[index].Status = 0;
-        // console.log(button)
-        document.querySelector(`.${button}`).disabled = true;
-        let t = (duration + 5)*1000;
-        arr[index].time = t;
-        // console.log(`time: ${t}`)
-        setTimeout(()=>{
-            const liftDoor = document.querySelector(`.liftDoor${index}`)
-            liftDoor.style.width = "0px";
-        },duration*1000)
-        setTimeout(()=>{
-            const liftDoor = document.querySelector(`.liftDoor${index}`)
-            liftDoor.style.width = "40px";
-        },(duration+2.5)*1000)
-        setTimeout(()=>{
-            // console.log(`setTimeout index: ${index}`)
-            arr[index].Status = 1;
-            // console.log(`array status: ${arr[index].Status}, index: ${index}`);
-            document.querySelector(`.${button}`).disabled = false;
-        }, t);
+            moveLift(index,buttonNum, button)
     }else {
         console.log("Wait")
-        document.querySelector(`.${button}`).disabled = true;
-        console.log(`arr at else: ${arr}`)
-        const index = checkAvailability(arr,liftCallSequence,buttonNum);
-        console.log(`index at Else: ${index}`);
-
-        setTimeout(()=>{
-            const lift = document.querySelector(`.lift-${index}`);
-        console.log(`liftCallSequence: ${liftCallSequence}`);
-        const pixel = (buttonNum)*upPixel;
-        lift.dataset.currentFloor = `${buttonNum}`;
-        lift.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
-        const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
-        lift.style.transitionDuration = `${duration}s`; 
-        arr[index].liftCurrentFloor = lift.dataset.currentFloor;
-        arr[index].Status = 0;
-        // console.log(button)
-        document.querySelector(`.${button}`).disabled = true;
-        let t = (duration + 5)*1000;
-        arr[index].time = t;
-        // console.log(`time: ${t}`)
-        setTimeout(()=>{
-            const liftDoor = document.querySelector(`.liftDoor${index}`)
-            liftDoor.style.width = "0px";
-        },duration*1000)
-        setTimeout(()=>{
-            const liftDoor = document.querySelector(`.liftDoor${index}`)
-            liftDoor.style.width = "40px";
-        },(duration+2.5)*1000)
-        setTimeout(()=>{
-            // console.log(`setTimeout index: ${index}`)
-            arr[index].Status = 1;
-            // console.log(`array status: ${arr[index].Status}, index: ${index}`);
-            document.querySelector(`.${button}`).disabled = false;
-        }, t);
-        },arr[index].time)
-        // liftCallSequence.push(buttonNum);
-        // console.log(`liftCallSequence: ${liftCallSequence}`);
-
+        liftCallSequence.push(buttonNum);
     }// have to build the button queued feature here ?   
     })
 }
@@ -249,12 +185,13 @@ function downButton(addDiv,i){
 
 function checkAvailability(arr,liftCallSequence,buttonNum){
     nearest = []
+    time = []
     //console.log(arr)
     arr.map((a)=>{
     if(a.Status == false){
-        console.log(typeof a.liftCurrentFloor )
-        //a.Status
-        nearest.push(Number(a.liftCurrentFloor))
+        time.push(a.time);
+        console.log(`time: ${time}`)
+        nearest.push(1000)
     }else if(a.Status == true){
     //     if(liftCallSequence != []){
     //     console.log(`liftcallsequemceinif: ${liftCallSequence}`)
@@ -268,11 +205,11 @@ function checkAvailability(arr,liftCallSequence,buttonNum){
     //     }
        
     // console.log(`liftCallSequence: ${liftCallSequence[0]}`)
-    const len = liftCallSequence.length;
-    const lastCall = liftCallSequence[len-1]
-    console.log(`arr at avai:${a.liftCurrentFloor}`)
-    console.log(`nearest num: ${Math.abs(a.liftCurrentFloor - lastCall)}`)
-    nearest.push(Math.abs(a.liftCurrentFloor - lastCall))
+    // const len = liftCallSequence.length;
+    // const lastCall = liftCallSequence[len-1]
+    // console.log(`arr at avai:${a.liftCurrentFloor}`)
+    // console.log(`nearest num: ${Math.abs(a.liftCurrentFloor - lastCall)}`)
+    nearest.push(Math.abs(a.liftCurrentFloor - buttonNum))
     console.log(`nearest Array: ${nearest}`) 
     }    
 })
@@ -285,7 +222,42 @@ function checkAvailability(arr,liftCallSequence,buttonNum){
 
 
 
-
+function moveLift(index, buttonNum, button){
+    const lift = document.querySelector(`.lift-${index}`);
+        console.log(`liftCallSequence: ${liftCallSequence}`);
+        const pixel = (buttonNum)*upPixel;
+        lift.dataset.currentFloor = `${buttonNum}`;
+        lift.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
+        lift.style.transitionDuration = `${duration}s`; 
+        arr[index].liftCurrentFloor = lift.dataset.currentFloor;
+        arr[index].Status = 0;
+        // console.log(button)
+        document.querySelector(`.${button}`).disabled = true;
+        let t = (duration + 5)*1000;
+        arr[index].time = t;
+        // console.log(`time: ${t}`)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "0px";
+        },duration*1000)
+        setTimeout(()=>{
+            const liftDoor = document.querySelector(`.liftDoor${index}`)
+            liftDoor.style.width = "40px";
+        },(duration+2.5)*1000)
+        setTimeout(()=>{
+            // console.log(`setTimeout index: ${index}`)
+            arr[index].Status = 1;
+            // console.log(`array status: ${arr[index].Status}, index: ${index}`);
+            document.querySelector(`.${button}`).disabled = false;
+            console.log(`liftCall: ${liftCallSequence.length}`)
+            if(liftCallSequence.length > 0){
+                document.querySelector(`.${button}`).disabled = true;
+                const nextFloor = liftCallSequence.shift(); // Get the next request in the queue
+                moveLift(index, nextFloor, button);
+            }
+        }, t);
+}
 /*
 1. Depending on the number of floors and lifts inputed by user generate accordingly
 2. we have to store the state of all the lifts, like on which floor they are in and currently busy or not. depending on the state of 
