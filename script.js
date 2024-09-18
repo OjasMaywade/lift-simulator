@@ -2,7 +2,7 @@
 // replace repetitive code with function and add lifts in correct position before the floor line with .insertBefore and by putting it before floor line in html
 
 
-let numberOfFloor, numberOfLifts, arr = [], nearest=[], liftCallSequence = [], time=[];
+let numberOfFloor, numberOfLifts, arr = [], nearest=[], liftCallSequence = [], time=[], buttonArr=[];
 const upPixel = 161;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
@@ -70,6 +70,8 @@ for(i=0;i<=numberOfFloor*2;i++){
     }else {
         console.log("Wait")
         liftCallSequence.push(buttonNum);
+        document.querySelector(`.${button}`).disabled = true;
+        buttonArr.push(button);
     }// have to build the button queued feature here ?   
     })
 }
@@ -183,7 +185,7 @@ function downButton(addDiv,i){
 }
 
 
-function checkAvailability(arr,liftCallSequence,buttonNum){
+function checkAvailability(arr,buttonNum){
     nearest = []
     time = []
     //console.log(arr)
@@ -236,7 +238,6 @@ function moveLift(index, buttonNum, button){
         document.querySelector(`.${button}`).disabled = true;
         let t = (duration + 5)*1000;
         arr[index].time = t;
-        // console.log(`time: ${t}`)
         setTimeout(()=>{
             const liftDoor = document.querySelector(`.liftDoor${index}`)
             liftDoor.style.width = "0px";
@@ -252,9 +253,10 @@ function moveLift(index, buttonNum, button){
             document.querySelector(`.${button}`).disabled = false;
             console.log(`liftCall: ${liftCallSequence.length}`)
             if(liftCallSequence.length > 0){
-                document.querySelector(`.${button}`).disabled = true;
+                console.log(`button at liftCall: ${button}`)
                 const nextFloor = liftCallSequence.shift(); // Get the next request in the queue
-                moveLift(index, nextFloor, button);
+                const nextButton = buttonArr.shift();
+                moveLift(index, nextFloor, nextButton);
             }
         }, t);
 }
