@@ -7,8 +7,8 @@ const upPixel = -161;
 //const downnPixel = -161;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
-   numberOfLifts = document.forms["form"]["lifts"].value;
-   numberOfFloor = document.forms["form"]["Floors"].value;
+   numberOfLifts = Number(document.forms["form"]["lifts"].value);
+   numberOfFloor = Number(document.forms["form"]["Floors"].value);
    
    const lineWidth = 85*numberOfLifts + 80;
     document.querySelector(".add").style.width = `${lineWidth}px`
@@ -17,7 +17,7 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
     alert(`Invalid input: No. of lifts cannot be ${numberOfLifts}. Please enter value more than or equal to 1`);
     location.reload()
     return "Invalid"
-   }else if(numberOfFloor == 1 || numberOfFloor == 0){
+   }else if(numberOfFloor == 0){
     alert(`Invalid input: No. of Floor cannot be ${numberOfFloor}. Please enter value more than or equal to 2`);
     location.reload()
     return "Invalid"
