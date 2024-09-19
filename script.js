@@ -17,7 +17,7 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
     alert(`Invalid input: No. of lifts cannot be ${numberOfLifts}. Please enter value more than or equal to 1`);
     location.reload()
     return "Invalid"
-   }else if(numberOfFloor == 1 || numberOfFloor == 0){
+   }else if(numberOfFloor == 0){
     alert(`Invalid input: No. of Floor cannot be ${numberOfFloor}. Please enter value more than or equal to 2`);
     location.reload()
     return "Invalid"
