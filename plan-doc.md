@@ -28,7 +28,8 @@ Task:
 7. Make input validation  - Done
 8. lifts are moving out of container when increased to 20+ - Done
 9. Simulator state is not getting updated
-10. when all lifts are engaged in movements and now if buttons is clicked, then these actions are not queued 
+10. when all lifts are engaged in movements and now if buttons is clicked, then these actions are not queued - Done
+11. Move all the code to function and mention comments. Also implement improvements for negative floors
 
 
 Call sequence

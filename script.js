@@ -3,7 +3,8 @@
 
 
 let numberOfFloor, numberOfLifts, arr = [], nearest=[], liftCallSequence = [], time=[], buttonArr=[];
-const upPixel = 161;
+const upPixel = -161;
+//const downnPixel = -161;
 // Depending on the number of floors and lifts inputed by user generate accordingly
 document.querySelector(".sub").addEventListener("click", (event)=>{
    numberOfLifts = document.forms["form"]["lifts"].value;
@@ -25,11 +26,11 @@ document.querySelector(".sub").addEventListener("click", (event)=>{
 function createSimulator(){
    if(numberOfFloor<0){
     const n =Number(numberOfFloor)+1;
-   for(i=0;i>=n;i--){
+   for(i=0;i>=numberOfFloor;i--){
         addFloors(numberOfFloor,numberOfLifts,i)
         }
     }else if(numberOfFloor>0){
-    for(i=numberOfFloor-1;i>=0;i--){
+    for(i=numberOfFloor;i>=0;i--){
         addFloors(numberOfFloor,numberOfLifts,i)
     }
    }
@@ -60,13 +61,12 @@ for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
         const button = event.target.classList[1];
         const buttonNum = Number(button.split("-")[1]);
-        
+        const pixel = (buttonNum)*upPixel;
         console.log(`button Number: ${buttonNum}, button: ${button}`)
         const index = checkAvailability(arr,buttonNum);
-        //console.log(`index at click: ${index}`)
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         if(arr[index].Status!=false){
-            moveLift(index,buttonNum, button)
+            moveLift(index,buttonNum, button,pixel)
     }else {
         console.log("Wait")
         liftCallSequence.push(buttonNum);
@@ -80,38 +80,16 @@ for(i=0;i>=numberOfFloor*2;i--){
     document.querySelectorAll(".liftCall")[Math.abs(i)].addEventListener("click", (event)=>{         
         const button = event.target.classList[1];
         const buttonNum = Number(button.split("-")[1]);
+        const pixel = (buttonNum)*-upPixel;
+        // console.log(pixel)
         console.log(`button Number: ${buttonNum}, button: ${button}`)
-        const index = checkAvailability(arr, liftCallSequence, buttonNum)[0];
+        const index = checkAvailability(arr,buttonNum);
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
         console.log(`index: ${index}`)
-        if(nearest[index]!=1000){
-        const lift = document.querySelector(`.lift-${index}`);
-        const pixel = (buttonNum)*upPixel;
-        lift.dataset.currentFloor = `${buttonNum}`;
-        lift.style.transform = `translateY( ${pixel}px)`; // define transition seconds according to the number of floor gap it has
-        const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
-        lift.style.transitionDuration = `${duration}s`; 
-        arr[index].liftCurrentFloor = lift.dataset.currentFloor;
-        arr[index].Status = 0;
-        document.querySelector(`.${button}`).disabled = true;
-        let t = (duration + 5)*1000;
-        // console.log(`time: ${t}`)
-        setTimeout(()=>{
-            const liftDoor = document.querySelector(`.liftDoor${index}`)
-            liftDoor.style.width = "0px";
-        },duration*1000)
-        setTimeout(()=>{
-            const liftDoor = document.querySelector(`.liftDoor${index}`)
-            liftDoor.style.width = "40px";
-        },(duration+2.5)*1000)
-        setTimeout(()=>{
-            console.log(`setTimeout index: ${index}`)
-            arr[index].Status = 1;
-            console.log(`array status: ${arr[index].Status}, index: ${index}`);
-            document.querySelector(`.${button}`).disabled = false;
-        }, t);
+        if(arr[index].Status!=false){
+            moveLift(index,buttonNum, button,pixel)
     }else {
-        console.log("wait")
+        console.log("Wait")
         liftCallSequence.push(buttonNum);
         document.querySelector(`.${button}`).disabled = true;
         buttonArr.push(button);
@@ -230,12 +208,12 @@ function checkAvailability(arr,buttonNum){
 
 
 
-function moveLift(index, buttonNum, button){
+function moveLift(index, buttonNum, button,pixel){
     const lift = document.querySelector(`.lift-${index}`);
         console.log(`liftCallSequence: ${liftCallSequence}`);
-        const pixel = (buttonNum)*upPixel;
+        
         lift.dataset.currentFloor = `${buttonNum}`;
-        lift.style.transform = `translateY(-${pixel}px)`; // define transition seconds according to the number of floor gap it has
+        lift.style.transform = `translateY(${pixel}px)`; // define transition seconds according to the number of floor gap it has
         const duration = 2*(Math.abs(lift.dataset.currentFloor - arr[index].liftCurrentFloor));
         lift.style.transitionDuration = `${duration}s`; 
         arr[index].liftCurrentFloor = lift.dataset.currentFloor;
@@ -262,7 +240,16 @@ function moveLift(index, buttonNum, button){
                 console.log(`button at liftCall: ${button}`)
                 const nextFloor = liftCallSequence.shift(); // Get the next request in the queue
                 const nextButton = buttonArr.shift();
-                moveLift(index, nextFloor, nextButton);
+                if(numberOfFloor>0) {
+                    const pixel = (nextFloor)*upPixel;
+                    moveLift(index, nextFloor, nextButton, pixel);
+                }
+                else {const pixel = (nextFloor)*-upPixel;
+                    moveLift(index, nextFloor, nextButton, pixel);
+                }
+                
+                console.log(`pixel at else: ${pixel}`)
+                
             }
         }, t);
 }
