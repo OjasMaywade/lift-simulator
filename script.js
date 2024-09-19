@@ -30,7 +30,8 @@ function createSimulator(){
         addFloors(numberOfFloor,numberOfLifts,i)
         }
     }else if(numberOfFloor>0){
-    for(i=numberOfFloor;i>0;i--){
+        const n =numberOfFloor -1;
+    for(i=n;i>=0;i--){
         addFloors(numberOfFloor,numberOfLifts,i)
     }
    }
@@ -61,7 +62,7 @@ for(i=0;i<=numberOfFloor*2;i++){
     document.querySelectorAll(".liftCall")[i].addEventListener("click", (event)=>{  
         const button = event.target.classList[1];
         const buttonNum = Number(button.split("-")[1]);
-        const pixel = (buttonNum-1)*upPixel;
+        const pixel = (buttonNum)*upPixel;
         console.log(`button Number: ${buttonNum}, button: ${button}`)
         const index = checkAvailability(arr,buttonNum);
         /*  first check the lift nearest to the floor then check the availability and next set the perference if all the lifts are near and available */
@@ -116,19 +117,20 @@ function addFloors(numberOfFloor,numberOfLifts,i){
     // i = Math.abs(i);
             const addDiv = document.createElement("div"); 
             addDiv.classList.add("floorDiv", `floorDiv-${i}`);
-            if(i==1){
+            const n = numberOfFloor -1;
+            if(i==0){
                 if(numberOfFloor<0) addDiv.classList.add("basement");
             const floorName = document.createElement("p");
-            const text = document.createTextNode(`${i} Floor`)
+            const text = document.createTextNode(`Ground Floor`)
             floorName.appendChild(text);
             addDiv.appendChild(floorName);
             upButton(addDiv,i);
             const addLiftContainer = document.createElement("div");
             addLiftContainer.classList.add("lift-container");
             addDiv.appendChild(addLiftContainer);
-            }else if(i==numberOfFloor){
+            }else if(i==n){
             const floorName = document.createElement("p");
-            const text = document.createTextNode(`${numberOfFloor} Floor`);
+            const text = document.createTextNode(`${n} Floor`);
             floorName.appendChild(text)
             addDiv.appendChild(floorName);
              downButton(addDiv,i)
